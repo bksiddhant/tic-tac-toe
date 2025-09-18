@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Ultimate Tic-Tac-Toe</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="theme-cyberpunk">
+  <div id="app">
+    <header class="topbar">
+      <h1>Ultimate Tic-Tac-Toe</h1>
+      <div class="controls-row">
+        <label class="control">
+          Mode
+          <select id="modeSelect" title="Local or vs AI">
+            <option value="local">Local (2 players)</option>
+            <option value="ai">Player vs AI</option>
+          </select>
+        </label>
+
+        <label class="control">
+          Board
+          <select id="sizeSelect" title="Board size">
+            <option value="3">3 × 3</option>
+            <option value="4">4 × 4</option>
+            <option value="5">5 × 5</option>
+          </select>
+        </label>
+
+        <label class="control" id="difficultyWrap">
+          Difficulty
+          <select id="difficultySelect">
+            <option value="easy">Easy (random)</option>
+            <option value="medium">Medium</option>
+            <option value="hard">Hard (perfect)</option>
+          </select>
+        </label>
+
+        <label class="control">
+          Theme
+          <select id="themeSelect">
+            <option value="cyberpunk">Cyberpunk</option>
+            <option value="neon">Neon Glow</option>
+            <option value="retro">Retro Pixel</option>
+            <option value="minimal">Minimal Whiteboard</option>
+          </select>
+        </label>
+
+        <button id="undoBtn" class="btn">Undo</button>
+        <button id="rematchBtn" class="btn">Rematch</button>
+        <button id="replayBtn" class="btn">Restart</button>
+      </div>
+    </header>
+
+    <main class="main">
+      <section class="left">
+        <div class="panel">
+          <div class="status">
+            <div id="turnIndicator" class="turn">Turn: <span id="turnPlayer">X</span></div>
+            <div id="timerWrap" class="timer hidden">
+              <span id="timerLabel">Time</span>
+              <div id="timerBar" class="timerBar"><div id="timerFill"></div></div>
+              <span id="timerValue">10</span>s
+            </div>
+          </div>
+
+          <div class="match-controls">
+            <label>
+              Timed mode
+              <input type="checkbox" id="timedToggle" />
+            </label>
+            <label class="small">
+              Seconds/turn
+              <input type="number" id="secondsPerTurn" min="3" max="60" value="10" />
+            </label>
+
+            <label class="small">
+              On timeout:
+              <select id="timeoutAction">
+                <option value="pass">Auto-pass</option>
+                <option value="random">Random move</option>
+              </select>
+            </label>
+
+            <label class="small">
+              Sounds
+              <input type="checkbox" id="soundToggle" checked />
+            </label>
+          </div>
+
+          <div class="history">
+            <h3>Match History</h3>
+            <div id="historyText">P1: 0 • P2: 0 • Draws: 0</div>
+            <div id="modeLabel">Mode: Local</div>
+          </div>
+        </div>
+
+        <div class="panel small">
+          <h4>Tips</h4>
+          <ul>
+            <li>Hover a cell to preview your move (glowing).</li>
+            <li>Undo works for the last move; vs AI it undoes the last pair.</li>
+            <li>Change board size for extra chaos — recommended: 4×4 or 5×5 (win = 4).</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="center">
+        <div id="boardWrapper">
+          <div id="board" class="board reveal"></div>
+          <svg id="winSvg" class="overlay-svg"></svg>
+          <canvas id="fxCanvas" class="overlay-canvas"></canvas>
+        </div>
+
+        <div class="bottombar">
+          <div id="result" class="result hidden"></div>
+          <div class="scoreboard">
+            <span>Player X: <strong id="scoreX">0</strong></span>
+            <span>Player O: <strong id="scoreO">0</strong></span>
+            <span>Draws: <strong id="scoreD">0</strong></span>
+          </div>
+        </div>
+      </section>
+
+      <section class="right">
+        <div class="panel">
+          <h3>Extras</h3>
+          <label>
+            Confetti
+            <input type="checkbox" id="confettiToggle" checked />
+          </label>
+          <label>
+            Particles on win
+            <input type="checkbox" id="particlesToggle" checked />
+          </label>
+          <label>
+            Shake on invalid
+            <input type="checkbox" id="shakeToggle" checked />
+          </label>
+        </div>
+
+        <div class="panel">
+          <h3>Match Settings</h3>
+          <label>
+            Start Player
+            <select id="startPlayer">
+              <option value="X">X</option>
+              <option value="O">O</option>
+            </select>
+          </label>
+
+          <label>
+            Swap starting player after each match
+            <input type="checkbox" id="swapStart" />
+          </label>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <small>Made with ✨ — click any tile to start. Built for fun by your creative partner-in-crime.</small>
+    </footer>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

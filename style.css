@@ -1,0 +1,180 @@
+:root{
+  --bg:#0b0b0e;
+  --panel:#111216;
+  --muted:#9aa3b2;
+  --accent:#7b61ff;
+  --x-color:#ff4d6d;
+  --o-color:#4dd6ff;
+  --glass: rgba(255,255,255,0.04);
+  --glass-2: rgba(255,255,255,0.02);
+  --font-sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  --cell-size: 96px;
+}
+
+/* Theme presets */
+body.theme-cyberpunk {
+  --bg:linear-gradient(180deg,#071023,#0b0710);
+  --panel: rgba(10,7,20,0.6);
+  --accent:#ff4df6;
+  --x-color:#ff4d6d;
+  --o-color:#4dd6ff;
+  color: #e8eefc;
+  background: radial-gradient(1000px 400px at 10% 10%, rgba(255,77,109,0.06), transparent), var(--bg);
+  --tile-glow: 0 0 20px rgba(255,77,109,0.12);
+}
+body.theme-neon {
+  --bg: #02020a;
+  --panel: rgba(255,255,255,0.03);
+  --accent:#6effa7;
+  --x-color:#ffb86b;
+  --o-color:#7ae7ff;
+  color:#dffbff;
+  --tile-glow: 0 0 18px rgba(122,231,255,0.12);
+}
+body.theme-retro {
+  --bg: linear-gradient(180deg,#141212,#0d0d0d);
+  --panel:#0c0b0b;
+  --accent:#ffd166;
+  --x-color:#ffd166;
+  --o-color:#80ffdb;
+  color:#e6e1d9;
+  font-family: "Press Start 2P", monospace, var(--font-sans);
+  --tile-glow: none;
+}
+body.theme-minimal {
+  --bg: #f6f7f9;
+  --panel:#ffffff;
+  --accent:#1a1a1a;
+  --x-color:#0a0a0a;
+  --o-color:#6b7280;
+  color:#111827;
+  --tile-glow:none;
+}
+
+/* layout */
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  font-family:var(--font-sans);
+  background:var(--bg);
+  color:var(--muted);
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+}
+
+#app{max-width:1200px;margin:20px auto;padding:18px;display:flex;flex-direction:column;gap:12px}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.topbar h1{margin:0;color:var(--accent);font-size:20px}
+.controls-row{display:flex;gap:8px;align-items:center}
+.control{display:flex;flex-direction:column;font-size:12px;color:var(--muted)}
+.control select{padding:6px;border-radius:6px;background:var(--panel);border:1px solid rgba(255,255,255,0.04);color:inherit}
+.btn{background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);border:1px solid rgba(255,255,255,0.04);padding:8px 12px;border-radius:8px;color:inherit;cursor:pointer}
+
+.main{display:grid;grid-template-columns:240px 1fr 240px;gap:16px;align-items:start}
+.panel{background:var(--panel);padding:14px;border-radius:12px;box-shadow:0 6px 18px rgba(2,2,2,0.4)}
+.small{font-size:13px}
+.left .panel{position:sticky;top:18px}
+
+.board {
+  width: min( calc(var(--cell-size) * 5 + 24px), 640px );
+  height: auto;
+  margin: 16px auto;
+  padding: 12px;
+  border-radius:16px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  display:grid;
+  gap:10px;
+  justify-content:center;
+  align-content:center;
+  box-shadow: var(--tile-glow);
+  transition:transform .25s ease;
+  position:relative;
+}
+
+/* overlay elements */
+#boardWrapper{position:relative;display:flex;flex-direction:column;align-items:center}
+.overlay-svg{position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none;overflow:visible}
+.overlay-canvas{position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none}
+
+/* cells */
+.cell{
+  user-select:none;
+  display:flex;align-items:center;justify-content:center;
+  font-size: clamp(22px, 6vw, 52px);
+  width: var(--cell-size); height: var(--cell-size);
+  border-radius:10px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.005));
+  cursor:pointer;
+  transition: transform .12s ease, box-shadow .12s ease;
+  position:relative;
+  box-shadow: inset 0 -6px 12px rgba(0,0,0,0.35);
+  opacity:0;
+  transform: translateY(18px) scale(.98);
+}
+
+/* reveal animation (staggered via JS) */
+.board.reveal .cell.show { opacity:1; transform:none; transition: opacity .35s ease, transform .42s cubic-bezier(.2,.9,.3,1) }
+
+/* hover glow */
+.cell:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.45);
+}
+
+/* symbol styles */
+.cell.x::before,
+.cell.o::before{
+  content: "";
+  position:absolute; inset:0; display:block;
+  width:100%; height:100%; display:flex;align-items:center;justify-content:center;
+}
+
+.symbol {
+  pointer-events:none;
+  font-weight:700;
+  text-shadow: 0 6px 20px rgba(0,0,0,0.5);
+  transform-origin:center;
+}
+
+/* X and O color */
+.cell.x .symbol{ color:var(--x-color); filter:drop-shadow(0 6px 20px rgba(255,77,109,0.14)) }
+.cell.o .symbol{ color:var(--o-color); filter:drop-shadow(0 6px 20px rgba(77,214,255,0.14)) }
+
+/* hover pulse: uses data-current-player to color pulse */
+.board[data-current="X"] .cell:hover::after,
+.board[data-current="O"] .cell:hover::after {
+  content: "";
+  position:absolute; inset:6px; border-radius:9px;
+  z-index:0; opacity:.15; animation:pulse 1s infinite;
+}
+.board[data-current="X"] .cell:hover::after{ background: linear-gradient(90deg, rgba(255,77,109,0.16), transparent) }
+.board[data-current="O"] .cell:hover::after{ background: linear-gradient(90deg, rgba(77,214,255,0.16), transparent) }
+
+@keyframes pulse {
+  0%{ transform:scale(.96); opacity:.12 }
+  50%{ transform:scale(1.04); opacity:.22 }
+  100%{ transform:scale(.96); opacity:.12 }
+}
+
+/* winning result */
+.result{margin-top:10px;padding:10px;border-radius:10px;background:linear-gradient(90deg,rgba(255,255,255,0.02),transparent);color:var(--accent)}
+.result.hidden{display:none}
+
+/* scoreboard */
+.scoreboard{display:flex;gap:12px;justify-content:center;margin-top:8px;color:var(--muted)}
+.scoreboard strong{color:var(--accent)}
+
+/* shake animation on invalid click */
+@keyframes shake {
+  0%{ transform:translateX(0) } 20%{ transform:translateX(-8px) } 40%{ transform:translateX(8px) } 60%{ transform:translateX(-6px) } 80%{ transform:translateX(6px) } 100%{ transform:translateX(0) }
+}
+.shake { animation: shake .6s cubic-bezier(.36,.07,.19,.97) }
+
+/* small screens */
+@media (max-width:960px){
+  .main{grid-template-columns:1fr;gap:12px}
+  .left,.right{order:2}
+  .center{order:1}
+  .board{width: min( calc(var(--cell-size) * 3 + 24px), 420px )}
+}
