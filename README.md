@@ -1,7 +1,7 @@
 # ✨ Ultimate Tic-Tac-Toe ✨
 
 A feature-packed, over-the-top Tic-Tac-Toe game built with **HTML, CSS, and JavaScript**.
-This isn’t just noughts and crosses—it’s glowing, animated, AI-powered chaos.
+This isn’t just noughts and crosses—it’s glowing, animated, AI-powered fun.
 
 ---
 
@@ -9,7 +9,6 @@ This isn’t just noughts and crosses—it’s glowing, animated, AI-powered cha
 
 * 🎭 **Animated Board Reveal** – Tiles fade in/drop when the game starts.
 * 🌈 **Glowing Hover Effects** – Pulsing highlights with player colors.
-* ⚡ **Winning Line Animation** – A glowing streak across the victory row/column/diagonal.
 * 🎨 **Theme Switcher** – Choose between:
 
   * Cyberpunk
