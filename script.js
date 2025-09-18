@@ -15,7 +15,7 @@ const state = {
   current: 'X',
   moves: [], // history {idx,player}
   isGameOver: false,
-  mode: 'local', // 'local'|'ai'
+  mode: 'ai', // 'local'|'ai'
   difficulty: 'hard',
   startPlayer: 'X',
   swapStart: false,
@@ -757,3 +757,4 @@ window.ttt = { state, resetGame, undoMove };
 /* ===================== Initialization ===================== */
 loadHistory();
 resetGame(true);
+
